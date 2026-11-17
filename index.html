@@ -5,24 +5,9 @@
 	<script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
 <style>
 	table, th, td {border: 1px solid;}
-	#leftbox {float:left, width:35%; height: 300px;}
-	#sytheticButton{
-		float:left;
-		width:25%;
-		height:300px;
-		box-sizing:border-box;
-		padding:10px;
-	}
-	#syntheticBox{
-		float:right;
-		width:50%;
-		height: 300px;
-	}
-	#boxes1:after {content:""; display:Block; clear:both;}
-	#boxes1 #leftbox {width:60%}
-	#boxes1 #middlebox {width:25%}
-	#boxes1 #syntheticButton {width:25%, margin-left:25%}
-	#syntheitcbox > div {float: left; width: 50%, box-sizing: border-box;}
+	#leftbox{float: left; width: 60%; height: 300px;}
+	#boxes1:after{content: ""; display: block; clear: both}
+	#predictions1{float: right; width: 35%;}
 </style>
 </head>
 <body>
@@ -31,13 +16,13 @@
 	<div id="leftbox">
 		<h2>Input Data</h2>
 		<label>Medical Surveillance System Indicator</label>
-		<select id="box8c1">
+		<select id="box0c1">
     			<option value="1">1</option>
     			<option value="2">2</option>
 			<option value="3">3</option>
 		</select><br/>
 		<label>Medical unit identifier</label>
-		<select id="box8c1">
+		<select id="box1c1">
     			<option value="1">1</option>
     			<option value="2">2</option>
     			<option value="1">3</option>
@@ -53,28 +38,28 @@
     			<option value="1">13</option>
 		</select><br/>
 		<label>Sex:</label>
-		<select id="box8c1">
+		<select id="box2c1">
     			<option value="1">Female</option>
     			<option value="2">Male</option>
 		</select><br/>
 		<label>Patient Type:</label>
-		<select id="box8c1">
+		<select id="box3c1">
     			<option value="1">Home</option>
     			<option value="2">Hospitalization</option>
 		</select><br/>
 		<label>Intubed:</label>
-		<select id="box8c1">
+		<select id="box4c1">
     			<option value="1">Yes</option>
     			<option value="2">No</option>
 		</select><br/>
 		<label>Pneumonia:</label>
-		<select id="box8c1">
+		<select id="box5c1">
     			<option value="1">Yes</option>
     			<option value="2">No</option>
 		</select><br/>
 		<input type="text" id="box6c1" value="">Age (Just Integer in Years)<br/>
 		<label>Pregnant:</label>
-		<select id="box8c1">
+		<select id="box7c1">
     			<option value="1">Yes</option>
     			<option value="2">No</option>
 		</select><br/>
@@ -130,7 +115,7 @@
 		</select><br/>
 		<input type="text" id="box18c1" value="">Covid Test Result    (1-3 means covid) (4+ means no or inconclusive)<br/>
 		<label>Admitted to ICU</label>
-		<select id="box17c1">
+		<select id="box19c1">
     			<option value="1">Yes</option>
     			<option value="2">No</option>
 		</select><br/>
@@ -176,10 +161,11 @@ async function runExample1() {
         if (!session) {
             session = await ort.InferenceSession.create("GoodClassDL.onnx");
         }
+		const inputName = session.inputNames[0];
+		const outputName = session.outputNames[0];
+        const results = await session.run({[inputName]: tensorX});
 
-        const results = await session.run({ input1: tensorX });
-
-        const output = results.output1.data;
+        const output = results[outputName].data;
 
         const predictions = document.getElementById('predictions1');
 
