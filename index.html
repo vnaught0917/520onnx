@@ -130,37 +130,23 @@
 let session;
 
 async function runExample1() {
-	for (let i = 0; i < 20; i++) {
-        let box = document.getElementById('box' + i + 'c1');
-
-        if (box == null) {
-            console.log("Missing input: box" + i + "c1");
-            return;
-        }
-    }
+	
 
     const x = new Float32Array(20);
 
-    x[0] = parseFloat(document.getElementById('box0c1').value) || 0;
-    x[1] = parseFloat(document.getElementById('box1c1').value) || 0;
-    x[2] = parseFloat(document.getElementById('box2c1').value) || 0;
-    x[3] = parseFloat(document.getElementById('box3c1').value) || 0;
-    x[4] = parseFloat(document.getElementById('box4c1').value) || 0;
-    x[5] = parseFloat(document.getElementById('box5c1').value) || 0;
-    x[6] = parseFloat(document.getElementById('box6c1').value) || 0;
-    x[7] = parseFloat(document.getElementById('box7c1').value) || 0;
-    x[8] = parseFloat(document.getElementById('box8c1').value) || 0;
-    x[9] = parseFloat(document.getElementById('box9c1').value) || 0;
-    x[10] = parseFloat(document.getElementById('box10c1').value) || 0;
-    x[11] = parseFloat(document.getElementById('box11c1').value) || 0;
-    x[12] = parseFloat(document.getElementById('box12c1').value) || 0;
-    x[13] = parseFloat(document.getElementById('box13c1').value) || 0;
-    x[14] = parseFloat(document.getElementById('box14c1').value) || 0;
-    x[15] = parseFloat(document.getElementById('box15c1').value) || 0;
-    x[16] = parseFloat(document.getElementById('box16c1').value) || 0;
-    x[17] = parseFloat(document.getElementById('box17c1').value) || 0;
-    x[18] = parseFloat(document.getElementById('box18c1').value) || 0;
-    x[19] = parseFloat(document.getElementById('box19c1').value) || 0;
+    for (let i = 0; i < 20; i++) {
+
+	    let id = 'box' + i + 'c1';
+	    let element = document.getElementById(id);
+	
+	    if (element == null) {
+	        console.error("Could not find HTML element:", id);
+	        alert("Missing HTML element: " + id);
+	        return;
+	    }
+	
+	    x[i] = parseFloat(element.value) || 0;
+	}
 
     const tensorX = new ort.Tensor('float32', x, [1, 20]);
 
